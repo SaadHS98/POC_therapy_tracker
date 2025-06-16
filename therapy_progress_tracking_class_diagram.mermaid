@@ -1,0 +1,217 @@
+classDiagram
+    class Client {
+        +string clientId
+        +string name
+        +list[Session] sessions
+        +addSession(session: Session) void
+        +getSessionById(sessionId: string) Session
+        +getAllSessions() list[Session]
+        +compareSessions(sessionId1: string, sessionId2: string) ComparisonResult
+    }
+    
+    class Session {
+        +string sessionId
+        +string clientId
+        +string date
+        +string content
+        +JsonStructure jsonData
+        +list[Symptom] symptoms
+        +list[StandardizedAssessment] assessments
+        +extractSymptoms() list[Symptom]
+        +mapToAssessments() list[StandardizedAssessment]
+        +getProgressSince(previousSession: Session) ProgressMetrics
+    }
+    
+    class JsonStructure {
+        +string briefSummary
+        +object presentation
+        +object psychologicalFactors
+        +object biologicalFactors
+        +object socialFactors
+        +object clinicalAssessment
+        +object mentalStatusExam
+        +object riskAssessment
+        +object strengthsAndResources
+        +object progressAndResponse
+        +validate() boolean
+        +parse() dict
+        +extractSection(sectionName: string) dict
+    }
+    
+    class Symptom {
+        +string id
+        +string name
+        +string description
+        +string onset
+        +string frequency
+        +string ascendance
+        +string intensity
+        +string duration
+        +string quote
+        +getSeverity() float
+        +getProgress(otherSymptom: Symptom) SymptomProgress
+        +isMatchFor(otherSymptom: Symptom) boolean
+        +extractKeywords() list[string]
+    }
+    
+    class SymptomExtractor {
+        +extractFromSession(session: Session) list[Symptom]
+        +matchSymptoms(symptomList1: list[Symptom], symptomList2: list[Symptom]) list[SymptomMatch]
+        +classifySymptom(symptom: Symptom) string
+        -preprocess(text: string) string
+        -extractEntities(text: string) list[Entity]
+    }
+    
+    class SymptomMatch {
+        +Symptom symptom1
+        +Symptom symptom2
+        +float similarityScore
+        +SymptomProgress progress
+        +getSimilarityScore() float
+        +getProgressDescription() string
+    }
+    
+    class SymptomProgress {
+        +string status
+        +float changeValue
+        +string description
+        +isImprovement() boolean
+        +isDeterioration() boolean
+        +isUnchanged() boolean
+    }
+    
+    class ProgressTracker {
+        +calculateProgress(session1: Session, session2: Session) ProgressMetrics
+        +identifyImprovedSymptoms(sessionComparison: SessionComparison) list[SymptomMatch]
+        +identifyWorsenedSymptoms(sessionComparison: SessionComparison) list[SymptomMatch]
+        +calculateOverallProgressScore(sessionComparison: SessionComparison) float
+        -normalizeProgressScore(score: float) float
+    }
+    
+    class SessionComparison {
+        +Session session1
+        +Session session2
+        +list[SymptomMatch] symptomMatches
+        +ProgressMetrics progressMetrics
+        +list[AssessmentComparison] assessmentComparisons
+        +getOverallProgress() float
+        +getImprovedSymptoms() list[SymptomMatch]
+        +getWorsenedSymptoms() list[SymptomMatch]
+        +getUnchangedSymptoms() list[SymptomMatch]
+        +getNewSymptoms() list[Symptom]
+        +getResolvedSymptoms() list[Symptom]
+    }
+    
+    class ProgressMetrics {
+        +float overallScore
+        +int improvedSymptomCount
+        +int worsenedSymptomCount
+        +int unchangedSymptomCount
+        +int newSymptomCount
+        +int resolvedSymptomCount
+        +map[string, float] domainScores
+        +calculateProgressPercentage() float
+        +getSummaryDescription() string
+        +getDomainProgress(domain: string) float
+    }
+    
+    class StandardizedAssessment {
+        +string name
+        +string description
+        +map[string, float] questions
+        +float totalScore
+        +string interpretation
+        +calculateScore() float
+        +getInterpretation() string
+        +compareWith(otherAssessment: StandardizedAssessment) AssessmentComparison
+    }
+    
+    class GAD7Assessment {
+        +mapSymptoms(symptoms: list[Symptom]) void
+        +calculateScore() float
+        +getAnxietyLevel() string
+    }
+    
+    class PHQ9Assessment {
+        +mapSymptoms(symptoms: list[Symptom]) void
+        +calculateScore() float
+        +getDepressionLevel() string
+    }
+    
+    class AssessmentComparison {
+        +StandardizedAssessment assessment1
+        +StandardizedAssessment assessment2
+        +float scoreDifference
+        +string changeSummary
+        +isImprovement() boolean
+        +isDeterioration() boolean
+        +getChangePercentage() float
+    }
+    
+    class AssessmentMapper {
+        +mapToGAD7(symptoms: list[Symptom]) GAD7Assessment
+        +mapToPHQ9(symptoms: list[Symptom]) PHQ9Assessment
+        +mapToCustomAssessment(symptoms: list[Symptom], assessmentDefinition: AssessmentDefinition) StandardizedAssessment
+        -matchSymptomToQuestion(symptom: Symptom, question: string) float
+        -normalizeMappingScore(score: float) float
+    }
+    
+    class ProgressVisualization {
+        +createOverallProgressChart(comparison: SessionComparison) Chart
+        +createSymptomComparisonChart(comparison: SessionComparison) Chart
+        +createAssessmentScoreChart(comparison: SessionComparison) Chart
+        +createProgressTimeline(sessions: list[Session]) Chart
+        -formatChartData(data: object) object
+        -selectAppropriateChartType(data: object) string
+    }
+    
+    class InsightGenerator {
+        +generateInsights(comparison: SessionComparison) list[Insight]
+        +identifyFocusAreas(comparison: SessionComparison) list[string]
+        +generateRecommendations(comparison: SessionComparison) list[string]
+        -analyzeProgressPatterns(comparison: SessionComparison) list[Pattern]
+        -rankInsightsByRelevance(insights: list[Insight]) list[Insight]
+    }
+    
+    class Insight {
+        +string category
+        +string description
+        +float relevanceScore
+        +list[string] relatedSymptoms
+        +list[string] supportingEvidence
+        +string actionableRecommendation
+        +formatForDisplay() string
+        +getRelevanceLevel() string
+    }
+    
+    class TherapyProgressAPI {
+        +uploadSessionFile(file: File) Session
+        +compareSessionsById(sessionId1: string, sessionId2: string) SessionComparison
+        +getSymptomDetailsById(symptomId: string) Symptom
+        +getProgressMetricsBySessionIds(sessionId1: string, sessionId2: string) ProgressMetrics
+        +getAssessmentScores(sessionId: string) list[StandardizedAssessment]
+        +getInsightsByComparisonId(comparisonId: string) list[Insight]
+    }
+    
+    Client "1" -- "*" Session : has
+    Session "1" -- "1" JsonStructure : contains
+    Session "1" -- "*" Symptom : contains
+    Session "1" -- "*" StandardizedAssessment : maps to
+    SymptomExtractor -- Symptom : extracts
+    SymptomMatch -- Symptom : links
+    SymptomMatch -- SymptomProgress : contains
+    ProgressTracker -- ProgressMetrics : calculates
+    ProgressTracker -- SessionComparison : analyzes
+    SessionComparison -- Session : compares
+    SessionComparison -- SymptomMatch : contains
+    SessionComparison -- ProgressMetrics : contains
+    SessionComparison -- AssessmentComparison : contains
+    StandardizedAssessment <|-- GAD7Assessment : extends
+    StandardizedAssessment <|-- PHQ9Assessment : extends
+    AssessmentComparison -- StandardizedAssessment : compares
+    AssessmentMapper -- StandardizedAssessment : creates
+    ProgressVisualization -- SessionComparison : visualizes
+    InsightGenerator -- Insight : generates
+    InsightGenerator -- SessionComparison : analyzes
+    TherapyProgressAPI -- SessionComparison : returns
+    TherapyProgressAPI -- Session : processes

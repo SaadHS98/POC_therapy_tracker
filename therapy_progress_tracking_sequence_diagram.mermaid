@@ -1,0 +1,84 @@
+sequenceDiagram
+    participant User as Therapist
+    participant UI as Frontend UI
+    participant API as TherapyProgressAPI
+    participant JP as JsonProcessor
+    participant SE as SymptomExtractor
+    participant PT as ProgressTracker
+    participant AM as AssessmentMapper
+    participant IG as InsightGenerator
+    participant VZ as ProgressVisualization
+    
+    %% Initial Upload Flow
+    User->>UI: Upload session notes
+    UI->>API: POST /api/sessions/upload
+    API->>JP: processJsonFile(file)
+    JP->>JP: validate()
+    JP->>JP: parse()
+    JP->>SE: extractSymptoms(jsonData)
+    SE->>SE: preprocess(text)
+    SE->>SE: extractEntities(text)
+    SE-->>API: return list[Symptom]
+    API->>AM: mapToStandardizedAssessments(symptoms)
+    AM->>AM: mapToGAD7(symptoms)
+    AM->>AM: mapToPHQ9(symptoms)
+    AM-->>API: return list[StandardizedAssessment]
+    API-->>UI: return Session
+    UI-->>User: Display success message
+    
+    %% Session Selection Flow
+    User->>UI: Select sessions to compare
+    UI->>API: GET /api/sessions/list
+    API-->>UI: return list[SessionSummary]
+    UI-->>User: Display session list
+    User->>UI: Select session 1 and session 2
+    UI->>API: POST /api/sessions/compare
+    
+    %% Comparison Processing Flow
+    API->>JP: getSessionById(sessionId1)
+    JP-->>API: return Session 1
+    API->>JP: getSessionById(sessionId2)
+    JP-->>API: return Session 2
+    API->>SE: matchSymptoms(session1.symptoms, session2.symptoms)
+    SE-->>API: return list[SymptomMatch]
+    API->>PT: calculateProgress(session1, session2, symptomMatches)
+    PT->>PT: identifyImprovedSymptoms()
+    PT->>PT: identifyWorsenedSymptoms()
+    PT->>PT: calculateOverallProgressScore()
+    PT-->>API: return ProgressMetrics
+    API->>AM: compareAssessments(session1.assessments, session2.assessments)
+    AM-->>API: return list[AssessmentComparison]
+    API->>API: createSessionComparison(session1, session2, symptomMatches, progressMetrics, assessmentComparisons)
+    
+    %% Insight Generation Flow
+    API->>IG: generateInsights(sessionComparison)
+    IG->>IG: analyzeProgressPatterns()
+    IG->>IG: identifyFocusAreas()
+    IG->>IG: generateRecommendations()
+    IG->>IG: rankInsightsByRelevance()
+    IG-->>API: return list[Insight]
+    API-->>UI: return SessionComparison with Insights
+    
+    %% Visualization Flow
+    UI->>VZ: createOverallProgressChart(sessionComparison)
+    VZ-->>UI: return Chart
+    UI->>VZ: createSymptomComparisonChart(sessionComparison)
+    VZ-->>UI: return Chart
+    UI->>VZ: createAssessmentScoreChart(sessionComparison)
+    VZ-->>UI: return Chart
+    UI-->>User: Display comparison dashboard
+    
+    %% Detailed Analysis Flow
+    User->>UI: View detailed analysis
+    UI->>API: GET /api/comparison/{id}/details
+    API-->>UI: return DetailedComparison
+    UI->>VZ: createDetailedVisualization(detailedComparison)
+    VZ-->>UI: return DetailedCharts
+    UI-->>User: Display detailed analysis
+    
+    %% Export Flow
+    User->>UI: Export report
+    UI->>API: GET /api/comparison/{id}/report
+    API->>API: generatePdfReport(comparisonId)
+    API-->>UI: return ReportFile
+    UI-->>User: Download report

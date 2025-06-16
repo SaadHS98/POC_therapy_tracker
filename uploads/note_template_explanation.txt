@@ -1,0 +1,96 @@
+{
+   "Brief Summary of Session": Provides a concise summary of key session topics, emotions, interventions, and progress.,
+   "Presentation":{
+      "Chief Complaint": Details the primary problems or symptoms that brought the client to therapy,
+      "Quote (Chief Complaint)": Presents a client quote about their presenting problem(s).,
+      "Impairments and Challenges": Details areas of impairment and their impact on client's life.,
+      "Family Dynamics":Describes relationships and interactions between family members.
+   },
+   "Psychological Factors":{
+      "Family Mental Health History": Describes family mental health issues and impact.,
+      "Previous Mental Health Treatments": Summarizes previous mental health treatment details.,
+      "Previous Mental Health Assessments": Summarizes previous mental health assessments and diagnoses.,
+      "Symptoms": Lists symptoms experienced by the client
+	  {
+         "Symptom 1":{
+            "Description": description of the symptom,
+            "Onset": Describes when the symptom first started.,
+            "Frequency": Describes how often the symptom occurs.,
+            "Ascendance": Describes any improvements or progress with the symptom,
+            "Intensity": Describes severity of the symptom.,
+            "Duration": Describes how long the symptom has been present.,
+            "Quote (Symptom)":Presents a client quote about the symptom.
+         }
+      }
+   },
+   "Biological Factors":{
+      "Allergies": Summarizes any allergies reported.,
+      "Family Medical History": Describes relevant family medical history,
+      "Medical Conditions": Describes chronic health conditions and any possible somatic disorders.,
+      "Sleep": Describes sleep patterns and related issues.,
+      "Nutrition": Describes diet, nutrition, and any related eating disorders.,
+      "Physical Activity": Describes physical activity and its effects.,
+      "Sexual Activity": Describes any relevant sexual activity.,
+      "Substances": Describes substance use details.
+   },
+   "Social Factors":{
+      "Work or School": Describes work/school activities and any related issues.,
+      "Relationships": Describes key relationships and any difficulties.,
+      "Recreation": Describes recreational activities and their effects.,
+      "Family Social History": Describes family relationship history and stressors.,
+      "Cultural Considerations": Describes other relevant social factors.,
+      "Traumatic Experiences": Describes any traumatic experiences and impact.,
+      "Quote (Traumatic Experiences)": Presents a client quote about the traumatic experience.
+   },
+   "Clinical Assessment":{
+      "Clinical Conceptualization": Summarizes contributing biopsychosocial factors.,
+      "Diagnosis":
+	  {
+         "Diagnosis 1":{
+            "Description": Identifies the most accurate DSM-5 diagnosis.,
+            "DSM- Code": Provides the dsm-5 code for the diagnosis., 
+            "ICD- Code": Provides the ICD-10 code for the diagnosis., 
+            "Reasoning": Explains why the diagnosis fits the client.
+         }
+      },
+      "Assessment Tools": Identifies assessments used.
+	  {
+         "Assessment Tool 1":{
+            "Description":,
+            "Purpose": Describes the purpose of using this assessment.,
+            "Results": Summarizes assessment results and significance.,
+            "Status": Describes status of assessments.
+         }
+      }
+   },
+   "Mental Status Exam":{
+      "Mood and Affect": Describes current mood and affect.,
+      "Speech and Language": Describes speech and language abilities.,
+      "Thought Process and Content": Describes thought process and content.,
+      "Orientation": Describes orientation to surroundings.,
+      "Perceptual Disturbances": Describes any perceptual disturbances.,
+      "Cognition": Describes cognitive abilities and memory impairments.,
+      "Insight":"The client demonstrated insight into their stress and its impact on their life."
+   },
+   "Risk Assessment":{
+      "Risks or Safety Concerns": Describes risks identified, if any.,
+      "Hopelessness": Describes level of hopelessness and systemic depression.,
+      "Suicidal Thoughts or Attempts": Describes any suicidal thoughts/attempts.,
+      "Self Harm": Describes any self-harm instances.,
+      "Dangerous to Others": Describes danger to self/others.,
+      "Quote (Risk)": Presents a client quote about risks.,
+      "Safety Plan": Describes any safety plans in place
+   },
+   "Strengths and Resources":{
+      "Internal Strengths": Describes internal coping strengths.,
+      "External Resources": Describes external support resources.,
+      "Quote (Resources)": Presents a client quote about strengths/resources.
+   },
+   "Progress and Response":{
+      "Response to Treatment": Describes client's response to treatment so far.,
+      "Specific Examples or Instances": Describes examples for progress.,
+      "Challenges to Progress": Identifies concerns about therapy process.,
+      "Practitioner's Observations and Reflections": Describes observations and insights.
+   }
+   
+}
